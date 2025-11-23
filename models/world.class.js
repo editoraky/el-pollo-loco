@@ -21,15 +21,15 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.addToMap(this.character);
+        this.level.backgroundObjects.forEach(bg => {
+            this.addToMap(bg);
+        });
 
         this.level.clouds.forEach(cloud => {
             this.addToMap(cloud);
         });
 
-        this.level.backgroundObjects.forEach(bg => {
-            this.addToMap(bg);
-        });
+        this.addToMap(this.character);
 
         this.level.enemies.forEach(enemy => {
             this.addToMap(enemy);
