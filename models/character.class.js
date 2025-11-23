@@ -1,18 +1,22 @@
 class Character extends MovableObject{
 
 
-    height = 300;
-    width = 150;
-    y = 40;
+    height = 280;
+    y = 80;
     speed = 10;
 
-    // damage = 10;
-    // offset = {
-    //     top: 120,
-    //     bottom :30,
-    //     left : 40,
-    //     right : 40
-    // }
+    IMAGES_IDLE = [
+        'img/2_character_pepe/1_idle/idle/I-1.png',
+        'img/2_character_pepe/1_idle/idle/I-2.png',
+        'img/2_character_pepe/1_idle/idle/I-3.png',
+        'img/2_character_pepe/1_idle/idle/I-4.png',
+        'img/2_character_pepe/1_idle/idle/I-5.png',
+        'img/2_character_pepe/1_idle/idle/I-6.png',
+        'img/2_character_pepe/1_idle/idle/I-7.png',
+        'img/2_character_pepe/1_idle/idle/I-8.png',
+        'img/2_character_pepe/1_idle/idle/I-9.png',
+        'img/2_character_pepe/1_idle/idle/I-10.png'
+    ];
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -35,6 +39,12 @@ class Character extends MovableObject{
         'img/2_character_pepe/3_jump/J-39.png'
     ];
 
+    IMAGES_HURT = [
+        'img/2_character_pepe/4_hurt/H-41.png',
+        'img/2_character_pepe/4_hurt/H-42.png',
+        'img/2_character_pepe/4_hurt/H-43.png'
+    ];
+
     IMAGES_DEAD = [
         'img/2_character_pepe/5_dead/D-51.png',
         'img/2_character_pepe/5_dead/D-52.png',
@@ -45,65 +55,46 @@ class Character extends MovableObject{
         'img/2_character_pepe/5_dead/D-57.png'
     ];
 
-    IMAGES_HURT = [
-        'img/2_character_pepe/4_hurt/H-41.png',
-        'img/2_character_pepe/4_hurt/H-42.png',
-        'img/2_character_pepe/4_hurt/H-43.png'
-    ];
-
-
     world;
+    keyboard;
+
     constructor() {
-        super().loadImage('img/2_character_pepe/2_walk/W-21.png');
+        super().loadImage('img/2_character_pepe/1_idle/idle/I-1.png');
+        this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
-        this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
-        this.applyGravity();
+        this.loadImages(this.IMAGES_DEAD);
         this.animate();
     }
 
     animate() {
+        this.handleMovement();
+        this.handleAnimations();
+    }
 
+    handleMovement() {
         setInterval(() => {
-
-            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            if (this.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
-                this.otherDirection = false;
             }
-
-            if(this.world.keyboard.LEFT && this.x > 0) {
+            if (this.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
-                this.otherDirection = true;
             }
-
-            if
-            (this.world.keyboard.UP && !this.isAboveGround() || this.world.keyboard.SPACE && !this.isAboveGround()){
-                this.jump();
-            }
-
-            this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
+    }
 
-
-        setInterval( () => {
-
-            if (this.isDead()) {
-                this.playAnimation(this.IMAGES_DEAD);
-            } else if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT);
-            }else if (this.isAboveGround()){
-                this.playAnimation(this.IMAGES_JUMPING);
+    handleAnimations() {
+        setInterval(() => {
+            if (this.keyboard.RIGHT || this.keyboard.LEFT) {
+                this.playAnimation(this.IMAGES_WALKING);
             } else {
-                if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
+                this.playAnimation(this.IMAGES_IDLE);
             }
-        }, 50);
-
+        }, 100);
     }
 
     jump() {
-        this.speedY = 25;
+
     }
 }
