@@ -67,33 +67,38 @@ class Character extends MovableObject {
         this.animate();
     }
 
+    //starts the animation loops for movement and images.
     animate() {
-        this.handleMovement();
-        this.handleAnimations();
+        setInterval(() => this.moveCharacter(), 1000 / 60);
+        setInterval(() => this.playCharacterAnimation(), 1000 / 10);
     }
 
-    handleMovement() {
-        setInterval(() => {
-            if (this.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
-            }
-            if (this.keyboard.LEFT && this.x > 0) {
-                this.moveLeft();
-            }
-        }, 1000 / 60);
+    //handles the movement logic based on keyboard input
+    moveCharacter() {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            this.moveRight();
+            this.otherDirection = false;
+        }
+        if (this.world.keyboard.LEFT && this.x > 0) {
+            this.moveLeft();
+            this.otherDirection = true;
+        }
+        if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            this.jump();
+        }
+        this.world.camera_x = -this.x + 100;
     }
 
-    handleAnimations() {
-        setInterval(() => {
-            if (this.keyboard.RIGHT || this.keyboard.LEFT) {
-                this.playAnimation(this.IMAGES_WALKING);
-            } else {
-                this.playAnimation(this.IMAGES_IDLE);
-            }
-        }, 100);
-    }
-
-    jump() {
-        
+    // Switches the character images based on the current state (dead, hurt, jumping, walking)
+    playCharacterAnimation() {
+        if (this.isDead()) {
+            this.playAnimation(this.IMAGES_DEAD);
+        } else if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT);
+        } else if (this.isAboveGround()) {
+            this.playAnimation(this.IMAGES_JUMPING);
+        } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            this.playAnimation(this.IMAGES_WALKING);
+        }
     }
 }
