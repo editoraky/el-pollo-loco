@@ -9,6 +9,7 @@ class World {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.throwableObjects = [];
         this.draw();
         this.setWorld();
         this.run();
@@ -23,6 +24,7 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
+            this.checkThrowObjects();
         }, 200);
     }
 
@@ -34,14 +36,30 @@ class World {
         });
     }
 
+    checkThrowObjects() {
+        if (this.keyboard.D) {
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+            this.throwableObjects.push(bottle);
+        }
+    }
+
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+       // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.level.backgroundObjects.forEach(bg => {
-            this.addToMap(bg);
-        });
+        this.ctx.translate(this.camera_x, 0);
+        //this.level.backgroundObjects.forEach(bg => {
+        //    this.addToMap(bg);
+        //});
 
-        this.level.clouds.forEach(cloud => {
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.clouds);
+
+        this.addObjectsToMap(this.throwableObjects);
+
+        this.addToMap(this.character);
+
+        this.ctx.translate.(-this.camera_x, 0);
+       /** this.level.clouds.forEach(cloud => {
             this.addToMap(cloud);
         });
 
@@ -54,8 +72,9 @@ class World {
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
-        });
+        }); **/
     }
+
     // Adds an object to the map. Flips image if needed
     // @param {MovableObject} mo - The movable object to draw
     addToMap(mo) {

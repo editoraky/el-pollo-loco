@@ -69,6 +69,18 @@ class MovableObject extends DrawableObject {
         this.img = this.imageCache[path];
         this.currentImage++;
     }
+
+    // Plays  an animation sequence once and stops at the last frame
+    // @param {string[]} images - Array of image paths
+    playAnimationOnce(images) {
+        let i = this.currentImage % images.length;
+        this.img = this.imageCache[images[i]];
+
+        if (i < images.length - 1) {
+            this.currentImage++;
+        }
+    }
+
     //Moves the object to the right by increasing the x-coordinate.
     moveRight() {
         this.x += this.speed;

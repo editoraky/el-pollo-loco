@@ -92,7 +92,7 @@ class Character extends MovableObject {
     // Switches the character images based on the current state (dead, hurt, jumping, walking)
     playCharacterAnimation() {
         if (this.isDead()) {
-            this.playAnimation(this.IMAGES_DEAD);
+            this.playAnimationOnce(this.IMAGES_DEAD);
         } else if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);
         } else if (this.isAboveGround()) {
