@@ -40,8 +40,31 @@ class World {
             self.draw();
         });
     }
-
+    // Adds an object to the map. Flips image if needed
+    // @param {MovableObject} mo - The movable object to draw
     addToMap(mo) {
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        //this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        if (mo.otherDirection) {
+            this.flipImage(mo);
+        }
+        mo.draw(this.ctx);
+        if (mo.otherDirection) {
+            this.flipImageBack(mo);
+        }
+    }
+    // Flips the image horizontally for drawing
+    // @param {MovableObject} mo
+    flipImage(mo) {
+        this.ctx.save();
+        this.ctx.translate(mo.width, 0);
+        this.ctx.scale(-1, 1);
+        mo.x = mo.x * -1;
+    }
+
+    // Restores the image orientation after drawing
+    // @param {MovableObject} mo
+    flipImageBack(mo) {
+        mo.x = mo.x * -1;
+        this.ctx.restore();
     }
 }
