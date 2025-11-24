@@ -9,13 +9,29 @@ class World {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.setWorld();
         this.draw();
+        this.setWorld();
+        this.run();
     }
 
     setWorld() {
         this.character.world = this;
         this.character.keyboard = this.keyboard;
+    }
+
+    // Starts the game loop to check for collisions or other game events
+    run() {
+        setInterval(() => {
+            this.checkCollisions();
+        }, 200);
+    }
+
+    checkCollisions() {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+            }
+        });
     }
 
     draw() {

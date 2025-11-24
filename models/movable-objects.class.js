@@ -28,9 +28,11 @@ class MovableObject extends DrawableObject {
         if (this instanceof ThrowableObject) {
             return true; //Throwable objects always fall
         }
-        return this.y < 180; //our groundlevel
+        return this.y < 180; //our ground level
     }
-
+    // Checks if this object is colliding with another movable object
+    // @param {MovableObject} mo - The other object ot check collision with
+    // @returns {boolean} True if objects are colliding
     isColliding(mo) {
         return this.x + this.width > mo.x &&
             this.y + this.height > mo.y &&
