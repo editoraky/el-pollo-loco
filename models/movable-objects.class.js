@@ -3,9 +3,14 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 2.5;
-    energy = 100;
+    health = 100;
     lastHit = 0;
 
+
+    /**
+     * Applies gravity to the object by decreasing the y-coordinate
+     * and reducing the vertical speed.
+     */
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -15,8 +20,15 @@ class MovableObject extends DrawableObject {
         }, 1000 / 25);
     }
 
+    /**
+     * Checks if the object is in the air.
+     * @returns {boolean} True if object is above ground or falling.
+     */
     isAboveGround() {
-        return this.y < 180;
+        if (this instanceof ThrowableObject) {
+            return true; //Throwable objects always fall
+        }
+        return this.y < 180; //our groundlevel
     }
 
     isColliding(mo) {
@@ -27,9 +39,9 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 5;
-        if (this.energy < 0) {
-            this.energy = 0;
+        this.health -= 5;
+        if (this.health < 0) {
+            this.health = 0;
         } else {
             this.lastHit = new Date().getTime();
         }
@@ -51,12 +63,17 @@ class MovableObject extends DrawableObject {
         this.img = this.imageCache[path];
         this.currentImage++;
     }
-
+    //Moves the object to the right by increasing the x-coordinate.
     moveRight() {
         this.x += this.speed;
     }
-
+    //Moves the object to the left by decreasing the x-coordinate.
     moveLeft() {
         this.x -= this.speed;
+    }
+
+    //Initiates a jump by setting a positive vertical speed.
+    jump() {
+        this.speedY = 30;
     }
 }
