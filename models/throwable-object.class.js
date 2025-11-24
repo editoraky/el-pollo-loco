@@ -5,7 +5,8 @@ class ThrowableObject extends MovableObject {
      * @param {number} y - The y-coordinate.
      */
     constructor(x, y) {
-        super().loadImage("img/6_salsa_bottle/salsa_bottle.png");
+        super();
+        this.loadImage("img/6_salsa_bottle/salsa_bottle.png");
         this.x = x;
         this.y = y;
         this.height = 60;

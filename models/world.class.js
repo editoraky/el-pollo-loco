@@ -4,12 +4,13 @@ class World {
     canvas;
     ctx;
     keyboard;
+    camera_x = 0;
+    throwableObjects = [];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.throwableObjects = [];
         this.draw();
         this.setWorld();
         this.run();
@@ -44,21 +45,21 @@ class World {
     }
 
     draw() {
-       // this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
-        //this.level.backgroundObjects.forEach(bg => {
-        //    this.addToMap(bg);
-        //});
-
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.clouds);
-
-        this.addObjectsToMap(this.throwableObjects);
+        this.level.backgroundObjects.forEach(bg => {
+            this.addToMap(bg);
+        });
+        this.ctx.translate(-this.camera_x, 0);
+        this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
+        this.addObjectsToMap(this.level.clouds);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.throwableObjects);
 
-        this.ctx.translate.(-this.camera_x, 0);
+        this.ctx.translate(-this.camera_x, 0);
        /** this.level.clouds.forEach(cloud => {
             this.addToMap(cloud);
         });
@@ -68,11 +69,18 @@ class World {
         this.level.enemies.forEach(enemy => {
             this.addToMap(enemy);
         });
+        **/
 
         let self = this;
         requestAnimationFrame(function() {
             self.draw();
-        }); **/
+        });
+    }
+
+    addObjectsToMap(objects) {
+        objects.forEach(object => {
+            this.addToMap(object);
+        });
     }
 
     // Adds an object to the map. Flips image if needed
