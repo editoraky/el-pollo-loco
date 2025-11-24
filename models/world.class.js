@@ -6,11 +6,24 @@ class World {
     keyboard;
     camera_x = 0;
     throwableObjects = [];
+    canThrow = true;
+    statusBar = new StatusBar();
+    statusBarCoins = new StatusBar();
+    statusBarBottles = new StatusBar();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.statusBar.y = 0;
+        this.statusBarCoins.y = 50;
+
+        this.statusBarCoins.setPercentage = function(percentage) {
+            this.percentage = percentage;
+            let path = this.IMAGES_BOTTLE[this.resolveImageIndex()];
+            this.img = this.imageCache[path];
+        };
+        this.statusBarBottles.setPercentage(0);
         this.draw();
         this.setWorld();
         this.run();
@@ -26,6 +39,7 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
+            this.checkCollections();
         }, 200);
     }
 
@@ -33,45 +47,46 @@ class World {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
+                this.statusBar.setPercentage(this.character.health);
             }
         });
     }
 
     checkThrowObjects() {
         if (this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-            this.throwableObjects.push(bottle);
+            if (this.canThrow && this.character.bottles > 0) {
+                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+                this.throwableObjects.push(bottle);
+                this.character.bottles -= 20; // Munition verbrauchen
+                this.statusBarBottles.setPercentage(this.character.bottles);
+                this.canThrow = false;
+                setTimeout(() => {
+                    this.canThrow = true
+                }, 200);
         }
     }
+}
 
     draw() {
        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
         this.ctx.translate(this.camera_x, 0);
-        this.level.backgroundObjects.forEach(bg => {
-            this.addToMap(bg);
-        });
-        this.ctx.translate(-this.camera_x, 0);
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
+
+        this.ctx.translate(-this.camera_x, 0); // Kamera zurück
+        this.addToMap(this.statusBar);
+        this.addToMap(this.statusBarCoins);
+        this.addToMap(this.statusBarBottles);
         this.ctx.translate(this.camera_x, 0);
 
-        this.addObjectsToMap(this.level.clouds);
+        this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
-        this.addToMap(this.character);
 
         this.ctx.translate(-this.camera_x, 0);
-       /** this.level.clouds.forEach(cloud => {
-            this.addToMap(cloud);
-        });
-
-        this.addToMap(this.character);
-
-        this.level.enemies.forEach(enemy => {
-            this.addToMap(enemy);
-        });
-        **/
 
         let self = this;
         requestAnimationFrame(function() {
@@ -111,5 +126,23 @@ class World {
     flipImageBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
+    }
+
+    checkCollections() {
+        this.level.coins.forEach((coin, index) => {
+            if (this.character.isColliding(coin)) {
+                this.character.collectCoin();
+                this.level.coins.splice(index, 1);
+                this.statusBarCoins.setPercentage(this.character.coins);
+            }
+        });
+
+        this.level.bottles.forEach((bottle, index) => {
+            if (this.character.isColliding(bottle)) {
+                this.character.collectBottle();
+                this.level.bottles.splice(index, 1);
+                this.statusBarBottles.setPercentage(this.character.bottles);
+            }
+        });
     }
 }

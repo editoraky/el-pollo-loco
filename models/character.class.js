@@ -2,6 +2,8 @@ class Character extends MovableObject {
     height = 280;
     y = 120;
     speed = 10;
+    coins = 0;
+    bottles = 0;
 
     IMAGES_IDLE = [
         "img/2_character_pepe/1_idle/idle/I-1.png",
@@ -57,7 +59,8 @@ class Character extends MovableObject {
     keyboard;
 
     constructor() {
-        super().loadImage("img/2_character_pepe/1_idle/idle/I-1.png");
+        super();
+        this.loadImage("img/2_character_pepe/1_idle/idle/I-1.png");
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
@@ -99,6 +102,22 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_JUMPING);
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.IMAGES_WALKING);
+        }
+    }
+
+    // Increases coin count. Cap is 100
+    collectCoin() {
+        this.coins += 20;
+        if (this.coins > 100) {
+            this.coins = 100;
+        }
+    }
+
+    // Increases bottle count. Cap is 100
+    collectBottle() {
+        this.bottles += 20;
+        if (this.bottles > 100) {
+            this.bottles = 100;
         }
     }
 }
