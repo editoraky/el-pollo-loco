@@ -37,7 +37,8 @@ class MovableObject extends DrawableObject {
             this.x < mo.x + mo.width &&
             this.y < mo.y + mo.height;
     }
-
+    // Reduces health by 5 and updates lastHit timestamp.
+    // If health drops below 0, it is set to 0
     hit() {
         this.health -= 5;
         if (this.health < 0) {
@@ -46,15 +47,18 @@ class MovableObject extends DrawableObject {
             this.lastHit = new Date().getTime();
         }
     }
-
+    // Checks if the object was his within the last second.
+    // @returns {boolean} True if hurt recently
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
         return timepassed < 1;
     }
 
+    // Checks if the object has no health left
+    // @returns {boolean} True if health is 0
     isDead() {
-        return this.health == 0;
+        return this.health === 0;
     }
 
     playAnimation(images) {
