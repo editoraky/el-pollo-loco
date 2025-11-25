@@ -5,7 +5,7 @@ class ThrowableObject extends MovableObject {
      * @param {number} x - The x-coordinate.
      * @param {number} y - The y-coordinate.
      */
-    constructor(x, y) {
+    constructor(x, y, direction) {
         super();
         this.loadImage("img/6_salsa_bottle/salsa_bottle.png");
         this.IMAGES_ROTATION = [
@@ -20,6 +20,7 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.height = 60;
         this.width = 50;
+        this.otherDirection = direction;
         this.throw();
     }
     /**
@@ -31,12 +32,16 @@ class ThrowableObject extends MovableObject {
 
         // Wurf-Intervall (Bewegung & Rotation)
         setInterval(() => {
-            this.x += 10;
+            if (this.otherDirection) {
+                this.x -= 10;
+            } else {
+                this.x += 10;
+            }
         }, 25);
 
 
         setInterval(() => {
             this.playAnimation(this.IMAGES_ROTATION);
-        }, 100);
+        }, 50);
     }
 }

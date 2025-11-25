@@ -71,7 +71,11 @@ class World {
     checkThrowObjects() {
         if (this.keyboard.D) {
             if (this.canThrow && this.character.bottles > 0) {
-                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
+                let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character.otherDirection);
+
+                if (this.character.otherDirection) {
+                    bottle.x = this.character.x - 10;
+                }
                 this.throwableObjects.push(bottle);
                 this.character.bottles -= 20; // Munition verbrauchen
                 this.statusBarBottles.setPercentage(this.character.bottles);
