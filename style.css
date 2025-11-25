@@ -9,6 +9,66 @@ canvas {
     display: block;
 }
 
+
+#container {
+    position: relative;
+    width: 720px;
+    height: 480px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#game-over-screen, #win-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.d-none {
+    display: none !important;
+}
+
+#game-over-screen img, #win-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    z-index: -1;
+}
+.restart-btn {
+    position: absolute;
+    bottom: 50px;
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    border: 3px solid #8b4513;
+    color: #8b4513;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+    z-index: 1000;
+}
+
+.restart-btn:hover {
+    background-color: #ffdb4d;
+    transform: scale(1.1);
+}
+
+/* #title{
+position: absolute;
+top: 0;
+
 /* Smartphones */
 @media only screen and (max-width: 720px) {
 canvas {
@@ -23,6 +83,3 @@ canvas {
     }
 }
 
-/* #title{
-position: absolute;
-top: 0;

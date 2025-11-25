@@ -21,6 +21,7 @@
     <script src="models/status-bar-health.class.js"></script>
     <script src="models/status-bar-coin.class.js"></script>
     <script src="models/status-bar-bottle.class.js"></script>
+    <script src="models/status-bar-endboss.class.js"></script>
     <script src="models/world.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/level.class.js"></script>
@@ -29,6 +30,16 @@
 </head>
 <body onload="init()">
     <h1>El Pollo Loco</h1>
-    <canvas id="canvas" width="720" height="480"></canvas>
+    <div id="container">
+        <canvas id="canvas" width="720" height="480"></canvas>
+        <div id="game-over-screen" class="d-none">
+            <img src="img/9_intro_outro_screens/game_over/game%20over!.png" alt="game over screen">
+            <div onclick="init()" class="restart-btn">Try Again!</div>
+        </div>
+
+        <div id="win-screen" class="d-none">
+            <img src="img/You won, you lost/You Win A.png" alt="won screen">
+        </div>
+    </div>
 </body>
 </html>

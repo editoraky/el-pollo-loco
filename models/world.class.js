@@ -10,6 +10,8 @@ class World {
     statusBar = new StatusBarHealth();
     statusBarCoins = new StatusBarCoin();
     statusBarBottles = new StatusBarBottle();
+    statusBarEndboss = new StatusBarEndboss();
+    gameOver = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -32,7 +34,38 @@ class World {
             this.checkThrowObjects();
             this.checkCollections();
             this.checkThrowCollisions();
+            this.checkGameOver();
         }, 200);
+    }
+
+    checkGameOver() {
+        if (this.gameOver) return;
+
+        if (this.character.isDead()) {
+            this.gameOver = true;
+            console.log('Game Over erkannt! Starte Timeout...');
+            this.showGameOver();
+        }
+        const boss = this.level.enemies.find(e => e instanceof Endboss);
+        if (boss && boss.isDead()) {
+            this.gameOver = true;
+            console.log('Game Over erkannt! Starte Timeout...');
+            this.showWin();
+        }
+    }
+
+    showGameOver() {
+        setTimeout(() => {
+            clearAllIntervals();
+            document.getElementById("game-over-screen").classList.remove("d-none");
+        }, 1000);
+    }
+
+    showWin() {
+        setTimeout(() => {
+            clearAllIntervals();
+            document.getElementById("win-screen").classList.remove("d-none");
+        }, 1000);
     }
 
     checkThrowObjects() {
@@ -80,9 +113,16 @@ class World {
         this.throwableObjects.forEach((bottle, bottleIndex) => {
             this.level.enemies.forEach((enemy, enemyIndex) => {
                 if (bottle.isColliding(enemy)) {
-                    this.level.enemies.splice(enemyIndex, 1);
-
-                    this.throwableObjects.splice(bottleIndex, 1);
+                    if (enemy instanceof Endboss) {
+                        enemy.hit();
+                        enemy.health -= 15;
+                        if (enemy.health < 0) {enemy.health = 0;}
+                        this.statusBarEndboss.setPercentage(enemy.health);
+                        this.throwableObjects.splice(bottleIndex,1);
+                    } else {
+                        this.level.enemies.splice(enemyIndex, 1);
+                        this.throwableObjects.splice(bottleIndex, 1);
+                    }
                 }
             });
         });
@@ -99,6 +139,7 @@ class World {
         this.addToMap(this.statusBar);
         this.addToMap(this.statusBarCoins);
         this.addToMap(this.statusBarBottles);
+        this.addToMap(this.statusBarEndboss);
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
