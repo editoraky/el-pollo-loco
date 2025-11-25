@@ -34,11 +34,12 @@
         <canvas id="canvas" width="720" height="480"></canvas>
         <div id="game-over-screen" class="d-none">
             <img src="img/9_intro_outro_screens/game_over/game%20over!.png" alt="game over screen">
-            <div onclick="init()" class="restart-btn">Try Again!</div>
+            <div onclick="window.location.reload()" class="restart-btn">Try Again!</div>
         </div>
 
         <div id="win-screen" class="d-none">
             <img src="img/You won, you lost/You Win A.png" alt="won screen">
+            <div onclick="window.location.reload()" class="restart-btn">Play Again!</div>
         </div>
     </div>
 </body>

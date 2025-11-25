@@ -74,7 +74,7 @@ class Character extends MovableObject {
 
     constructor() {
         super();
-        this.loadImage("img/2_character_pepe/1_idle/idle/I-1.png");
+        this.loadImage("img/2_character_pepe/2_walk/W-21.png");
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
@@ -83,6 +83,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.applyGravity();
         this.animate();
+        this.lastMovement = new Date().getTime();
     }
 
     //starts the animation loops for movement and images.
