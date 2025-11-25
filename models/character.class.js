@@ -78,6 +78,10 @@ class Character extends MovableObject {
 
     //handles the movement logic based on keyboard input
     moveCharacter() {
+        if (!this.world || !this.world.keyboard) {
+            return;
+        }
+
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight();
             this.otherDirection = false;
@@ -94,6 +98,10 @@ class Character extends MovableObject {
 
     // Switches the character images based on the current state (dead, hurt, jumping, walking)
     playCharacterAnimation() {
+        if (!this.world || !this.world.keyboard) {
+            return;
+        }
+
         if (this.isDead()) {
             this.playAnimationOnce(this.IMAGES_DEAD);
         } else if (this.isHurt()) {
