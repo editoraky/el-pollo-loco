@@ -29,6 +29,14 @@ class World {
 
     // Starts the game loop to check for collisions or other game events
     run() {
+        SoundManager.background_music.loop = true;
+        SoundManager.background_music.volume = 0.2;
+        SoundManager.background_music.play();
+
+        SoundManager.background_sound.loop = true;
+        SoundManager.background_sound.volume = 0.1;
+        SoundManager.background_sound.play();
+
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
@@ -43,13 +51,25 @@ class World {
 
         if (this.character.isDead()) {
             this.gameOver = true;
-            console.log('Game Over erkannt! Starte Timeout...');
+            SoundManager.background_music.play();
+            SoundManager.background_sound.play();
+
+            SoundManager.lost_sound.play();
+            SoundManager.lost_music.play();
+
             this.showGameOver();
         }
         const boss = this.level.enemies.find(e => e instanceof Endboss);
         if (boss && boss.isDead()) {
             this.gameOver = true;
-            console.log('Game Over erkannt! Starte Timeout...');
+            SoundManager.background_music.pause();
+            SoundManager.background_sound.pause();
+
+            SoundManager.endboss_dead_sound.play();
+            setTimeout(() => {
+                SoundManager.win_sound.play();
+            }, 1000);
+
             this.showWin();
         }
     }
@@ -89,6 +109,8 @@ class World {
     checkCollections() {
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
+                SoundManager.collect_coin_sound.currentTime = 0;
+                SoundManager.collect_coin_sound.play();
                 this.character.collectCoin();
                 this.level.coins.splice(index, 1);
                 this.statusBarCoins.setPercentage(this.character.coins);
@@ -97,6 +119,8 @@ class World {
 
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
+                SoundManager.collect_bottle_sound.currentTime = 0;
+                SoundManager.collect_bottle_sound.play();
                 this.character.collectBottle();
                 this.level.bottles.splice(index, 1);
                 this.statusBarBottles.setPercentage(this.character.bottles);
@@ -126,13 +150,16 @@ class World {
         this.throwableObjects.forEach((bottle, bottleIndex) => {
             this.level.enemies.forEach((enemy, enemyIndex) => {
                 if (bottle.isColliding(enemy)) {
+                    SoundManager.bottle_smash_sound.play();
                     if (enemy instanceof Endboss) {
+                        SoundManager.endboss_hurt_sound.play();
                         enemy.hit();
                         enemy.health -= 15;
                         if (enemy.health < 0) {enemy.health = 0;}
                         this.statusBarEndboss.setPercentage(enemy.health);
                         this.throwableObjects.splice(bottleIndex,1);
                     } else {
+                        SoundManager.chicken_dead_sound.play();
                         this.level.enemies.splice(enemyIndex, 1);
                         this.throwableObjects.splice(bottleIndex, 1);
                     }

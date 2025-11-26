@@ -127,10 +127,11 @@ class Character extends MovableObject {
         if (!this.world || !this.world.keyboard) {
             return;
         }
-
         if (this.isDead()) {
+            SoundManager.pepe_dead_sound.play();
             this.playAnimationOnce(this.IMAGES_DEAD);
         } else if (this.isHurt()) {
+            SoundManager.pepe_hurt_sound.play();
             this.playAnimation(this.IMAGES_HURT);
         } else if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING);
