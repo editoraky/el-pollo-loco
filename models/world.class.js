@@ -105,10 +105,19 @@ class World {
     }
 
     checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
-                this.character.hit();
-                this.statusBar.setPercentage(this.character.health);
+        this.level.enemies.forEach((enemy, index) => {
+            if (this.character.isColliding(enemy) && !enemy.isDead()) {
+                if (this.character.isAboveGround() && this.character.speedY < 0) {
+                    enemy.kill();
+                    this.character.jump();
+
+                    setTimeout(() => {
+                        this.level.enemies.splice(index, 1);
+                    }, 1000);
+                } else {
+                    this.character.hit();
+                    this.statusBar.setPercentage(this.character.health);
+                }
             }
         });
     }
