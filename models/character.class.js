@@ -92,6 +92,13 @@ class Character extends MovableObject {
         setInterval(() => this.playCharacterAnimation(), 1000 / 10);
     }
 
+    isAboveGround() {
+        if (this.isDead()) {
+            return true;
+        }
+        return this.y < 140;
+    }
+
     //handles the movement logic based on keyboard input
     moveCharacter() {
         if (!this.world || !this.world.keyboard) {
