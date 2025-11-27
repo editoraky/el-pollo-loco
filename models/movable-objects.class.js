@@ -7,6 +7,7 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
 
 
+
     /**
      * Applies gravity to the object by decreasing the y-coordinate
      * and reducing the vertical speed.
@@ -34,10 +35,10 @@ class MovableObject extends DrawableObject {
     // @param {MovableObject} mo - The other object ot check collision with
     // @returns {boolean} True if objects are colliding
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x + mo.width &&
-            this.y < mo.y + mo.height;
+        return  this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+                this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+                this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
+                this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
     // Reduces health by 5 and updates lastHit timestamp.
     // If health drops below 0, it is set to 0

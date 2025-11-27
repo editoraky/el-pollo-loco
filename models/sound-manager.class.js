@@ -23,6 +23,17 @@ class SoundManager {
     static lost_music = new Audio("audio/lost_sound/game_over_sound.mp3");
     static lost_sound = new Audio("audio/lost_sound/game_over_cut.mp3");
 
+    static init() {
+        this.background_music.volume = 0.1;
+        this.background_sound.volume = 0.2;
+
+        this.collect_coin_sound.volume = 0.1;
+        this.collect_bottle_sound.volume = 0.1;
+
+        this.pepe_jump_sound.volume = 0.2;
+        this.bottle_smash_sound.volume = 0.3;
+    }
+
     static mute(muted) {
         if (muted) {
             this.background_music.pause();
@@ -31,8 +42,9 @@ class SoundManager {
         }
     }
 
-    static playVoice(audio) {
+    static playSound(audio) {
         let clone = audio.cloneNode(true);
+        clone.volume = audio.volume;
         clone.play();
     }
 }

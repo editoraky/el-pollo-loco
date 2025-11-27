@@ -25,16 +25,18 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        const boss = this.level.enemies.find(e => e instanceof Endboss);
+        if (boss) {
+            boss.world = this;
+        }
     }
 
     // Starts the game loop to check for collisions or other game events
     run() {
         SoundManager.background_music.loop = true;
-        SoundManager.background_music.volume = 0.2;
         SoundManager.background_music.play();
 
         SoundManager.background_sound.loop = true;
-        SoundManager.background_sound.volume = 0.1;
         SoundManager.background_sound.play();
 
         setInterval(() => {
@@ -65,9 +67,9 @@ class World {
             SoundManager.background_music.pause();
             SoundManager.background_sound.pause();
 
-            SoundManager.endboss_dead_sound.play();
             setTimeout(() => {
                 SoundManager.win_sound.play();
+                SoundManager.win_music.play();
             }, 1000);
 
             this.showWin();
@@ -97,7 +99,7 @@ class World {
                     bottle.x = this.character.x - 10;
                 }
                 this.throwableObjects.push(bottle);
-                this.character.bottles -= 20; // Munition verbrauchen
+                this.character.bottles -= 100 / 10; // Munition verbrauchen
                 this.statusBarBottles.setPercentage(this.character.bottles);
                 this.canThrow = false;
                 setTimeout(() => {
@@ -110,7 +112,7 @@ class World {
         this.level.coins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
                 SoundManager.collect_coin_sound.currentTime = 0;
-                SoundManager.collect_coin_sound.play();
+                SoundManager.playSound(SoundManager.collect_coin_sound);
                 this.character.collectCoin();
                 this.level.coins.splice(index, 1);
                 this.statusBarCoins.setPercentage(this.character.coins);
@@ -120,7 +122,7 @@ class World {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 SoundManager.collect_bottle_sound.currentTime = 0;
-                SoundManager.collect_bottle_sound.play();
+                SoundManager.playSound(SoundManager.collect_bottle_sound);
                 this.character.collectBottle();
                 this.level.bottles.splice(index, 1);
                 this.statusBarBottles.setPercentage(this.character.bottles);
@@ -150,7 +152,7 @@ class World {
         this.throwableObjects.forEach((bottle, bottleIndex) => {
             this.level.enemies.forEach((enemy, enemyIndex) => {
                 if (bottle.isColliding(enemy)) {
-                    SoundManager.bottle_smash_sound.play();
+                    SoundManager.playSound(SoundManager.bottle_smash_sound);
                     if (enemy instanceof Endboss) {
                         SoundManager.endboss_hurt_sound.play();
                         enemy.hit();
@@ -210,6 +212,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
+        mo.drawFrame(this.ctx);
         if (mo.otherDirection) {
             this.flipImageBack(mo);
         }

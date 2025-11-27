@@ -5,6 +5,12 @@ class Character extends MovableObject {
     coins = 0;
     bottles = 0;
     lastMovement = 0;
+    offset = {
+        top: 110,
+        bottom: 10,
+        left: 20,
+        right: 30
+    };
 
     IMAGES_IDLE = [
         "img/2_character_pepe/1_idle/idle/I-1.png",
@@ -117,6 +123,7 @@ class Character extends MovableObject {
         }
         if (this.world.keyboard.SPACE && !this.isAboveGround()) {
             this.jump();
+            SoundManager.playSound(SoundManager.pepe_jump_sound);
             this.lastMovement = new Date().getTime();
         }
         this.world.camera_x = -this.x + 100;
@@ -131,7 +138,7 @@ class Character extends MovableObject {
             SoundManager.pepe_dead_sound.play();
             this.playAnimationOnce(this.IMAGES_DEAD);
         } else if (this.isHurt()) {
-            SoundManager.pepe_hurt_sound.play();
+            SoundManager.playSound(SoundManager.pepe_hurt_sound);
             this.playAnimation(this.IMAGES_HURT);
         } else if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING);
@@ -154,7 +161,7 @@ class Character extends MovableObject {
 
     // Increases coin count. Cap is 100
     collectCoin() {
-        this.coins += 20;
+        this.coins += 100 / 10;
         if (this.coins > 100) {
             this.coins = 100;
         }
@@ -162,7 +169,7 @@ class Character extends MovableObject {
 
     // Increases bottle count. Cap is 100
     collectBottle() {
-        this.bottles += 20;
+        this.bottles += 100 / 10;
         if (this.bottles > 100) {
             this.bottles = 100;
         }
