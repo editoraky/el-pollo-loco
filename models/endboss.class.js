@@ -4,6 +4,7 @@ class Endboss extends MovableObject {
     width = 250;
     y = 55;
     world;
+    hadFirstContact = false;
     offset = {
       top: 50,
       bottom: 0,
@@ -13,7 +14,6 @@ class Endboss extends MovableObject {
 
     constructor() {
         super();
-
         this.loadImage("img/4_enemie_boss_chicken/2_alert/G5.png");
 
         this.IMAGES_ALERT = [
@@ -63,26 +63,38 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
 
         this.x = 2500;
-        this.speed = 20;
+        this.speed = 2.5;
+
         this.animate();
     }
 
     animate() {
-        setInterval( () => {
-            if (!this.world || !this.world.character) return;
-            let distance = this.x - this.world.character.x;
-
+        setInterval(() => {
             if (this.isDead()) {
                 this.playAnimationOnce(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
-            } else if (distance < 60) {
-                this.playAnimation(this.IMAGES_ATTACK);
-            } else if (distance < 500) {
-                this.playAnimation(this.IMAGES_ALERT);
-            } else {
-                this.playAnimation(this.IMAGES_ALERT);
+            } else if (this.world && this.world.character) {
+                let distance = Math.abs(this.x - this.world.character.x);
+                if (distance < 500 && !this.hadFirstContact) {
+                    this.hadFirstContact = true;
+                }
+                if (distance < 60) {
+                    this.playAnimation(this.IMAGES_ATTACK);
+                } else if (this.hadFirstContact) {
+                        this.playAnimation(this.IMAGES_ALERT);
+                    } else {
+                    this.playAnimation(this.IMAGES_ALERT);
+                    }
             }
         }, 200);
+
+        setInterval(() => {
+            if (this.hadFirstContact && !this.isDead() && !this.isHurt()) {
+                if (this.world && this.world.character && Math.abs(this.x - this.world.character.x) > 60) {
+                    this.moveLeft();
+                }
+            }
+        }, 1000 / 60);
     }
 }
