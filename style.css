@@ -65,6 +65,45 @@ canvas {
     transform: scale(1.1);
 }
 
+.start-screen-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.start-screen-overlay img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    z-index: -1;
+}
+
+.start-btn {
+    padding: 15px 30px;
+    background-color: #ffcc00;
+    border: 3px solid #8b4513;
+    color: #8b4513;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+    z-index: 1001;
+    transition: all 0.1s ease-in-out;
+}
+
+.start-btn:hover {
+    transform: scale(1.1);
+    background-color: #ffdb4d;
+}
+
 /* #title{
 position: absolute;
 top: 0;
