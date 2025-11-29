@@ -1,25 +1,62 @@
+@font-face {
+    font-display: swap;
+    font-family: "Bangers";
+    font-style: normal;
+    font-weight: 400;
+    src: url("fonts/bangers-v25-latin-regular.woff2") format("woff2");
+}
+
+@font-face {
+    font-display: swap;
+    font-family: "Boogaloo";
+    font-style: normal;
+    font-weight: 400;
+    src: url("fonts/boogaloo-v25-latin-regular.woff2") format('woff2');
+}
+
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     background-image: url("img/game_background/cactus-9696097_1920.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     backdrop-filter: blur(2px);
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
 }
 
 canvas {
     background-color: black;
     display: block;
+    margin: auto;
 }
 
+h1 {
+    font-family: "Bangers", "Boogaloo",sans-serif, cursive;
+    font-size: 7rem;
+    color: #ffcc00;
+    margin-bottom: 20px;
+    text-shadow:    3px 3px 0 #8b4513,
+                    -1px -1px 0 #8b4513,
+                    1px -1px 0 #8b4513,
+                    -1px 1px 0 #8b4513,
+                    1px 1px 0 #8b4513;
+
+}
 
 #container {
     position: relative;
     width: 720px;
     height: 480px;
+    box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
     margin: 0 auto;
     display: flex;
     justify-content: center;
