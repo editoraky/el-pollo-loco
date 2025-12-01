@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/2_character_pepe/1_idle/idle/I-1.png">
     <title>El Pollo Loco</title>
     <link rel="stylesheet" href="style.css">
 
@@ -46,6 +47,9 @@
         <div id="win-screen" class="d-none">
             <img src="img/You won, you lost/You Win A.png" alt="won screen">
             <div onclick="window.location.reload()" class="restart-btn">Play Again!</div>
+        </div>
+        <div class="mute-btn-container" onclick="toggleMute()">
+            <img id="mute-icon" src="img/sound-off-white.png" alt="Mute">
         </div>
     </div>
 </body>

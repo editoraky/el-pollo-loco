@@ -147,6 +147,31 @@ h1 {
     background-color: #ffdb4d;
 }
 
+.mute-btn-container {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 1003;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mute-btn-container:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.mute-btn-container img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
 /* #title{
 position: absolute;
 top: 0;
