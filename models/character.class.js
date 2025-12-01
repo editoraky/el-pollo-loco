@@ -11,6 +11,7 @@ class Character extends MovableObject {
         left: 20,
         right: 30
     };
+    lastHurtSoundTime = 0;
 
     IMAGES_IDLE = [
         "img/2_character_pepe/1_idle/idle/I-1.png",
@@ -138,8 +139,13 @@ class Character extends MovableObject {
             SoundManager.pepe_dead_sound.play();
             this.playAnimationOnce(this.IMAGES_DEAD);
         } else if (this.isHurt()) {
-            SoundManager.playSound(SoundManager.pepe_hurt_sound);
+            let now = new Date().getTime();
+            if (now - this.lastHurtSoundTime > 1000) {
+                SoundManager.playSound(SoundManager.pepe_hurt_sound);
+                this.lastHurtSoundTime = now;
+            }
             this.playAnimation(this.IMAGES_HURT);
+
         } else if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING);
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {

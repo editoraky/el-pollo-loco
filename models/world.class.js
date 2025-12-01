@@ -25,9 +25,14 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        const boss = this.level.enemies.find(e => e instanceof Endboss);
-        if (boss) {
-            boss.world = this;
+        if (this.level && this.level.enemies) {
+            const boss = this.level.enemies.find(e => e instanceof Endboss);
+            if (boss) {
+                boss.world = this;
+                console.log("World: Endboss gefunden und verknüpft!");
+        } else {
+                console.warn("World: Kein Endboss im Level gefunden!");
+            }
         }
     }
 
@@ -151,20 +156,25 @@ class World {
     checkThrowCollisions() {
         this.throwableObjects.forEach((bottle, bottleIndex) => {
             this.level.enemies.forEach((enemy, enemyIndex) => {
-                if (bottle.isColliding(enemy)) {
+                if (bottle.isColliding(enemy) && !enemy.isDead()) {
                     SoundManager.playSound(SoundManager.bottle_smash_sound);
                     if (enemy instanceof Endboss) {
-                        SoundManager.endboss_hurt_sound.play();
+                        SoundManager.playSound(SoundManager.endboss_hurt_sound);
                         enemy.hit();
                         enemy.health -= 15;
                         if (enemy.health < 0) {enemy.health = 0;}
                         this.statusBarEndboss.setPercentage(enemy.health);
                         this.throwableObjects.splice(bottleIndex,1);
                     } else {
-                        SoundManager.chicken_dead_sound.play();
-                        this.level.enemies.splice(enemyIndex, 1);
-                        this.throwableObjects.splice(bottleIndex, 1);
+                        SoundManager.playSound(SoundManager.chicken_dead_sound);
+                        enemy.kill();
+                        setTimeout(() => {
+                            if (this.level.enemies.includes(enemy)) {
+                                this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1);
+                            }
+                        }, 500);
                     }
+                    this.throwableObjects.splice(bottleIndex,1);
                 }
             });
         });

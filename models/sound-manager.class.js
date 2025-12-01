@@ -3,7 +3,7 @@ class SoundManager {
     static pepe_dead_sound = new Audio("audio/pepe_hurt_and_dead/pepe_dies_cut.mp3");
     static pepe_jump_sound = new Audio("audio/jump_sound/jump_sound_cut.mp3");
 
-    static chicken_dead_sound = new Audio("audio/chicken_dead/chicken_dead.ogg");
+    static chicken_dead_sound = new Audio("audio/chicken_dead/splash-cut.mp3");
     static chicken_walking_sound = new Audio("audio/chicken_and_small_chicken_walking/chicken-noise-cut.mp3");
     static small_chicken_walking_sound = new Audio("audio/chicken_and_small_chicken_walking/short-chick-sound-171389.mp3");
 
@@ -23,6 +23,8 @@ class SoundManager {
     static lost_music = new Audio("audio/lost_sound/game_over_sound.mp3");
     static lost_sound = new Audio("audio/lost_sound/game_over_cut.mp3");
 
+    static muted = false;
+
     static init() {
         this.background_music.volume = 0.1;
         this.background_sound.volume = 0.2;
@@ -34,15 +36,22 @@ class SoundManager {
         this.bottle_smash_sound.volume = 0.3;
     }
 
-    static mute(muted) {
-        if (muted) {
+    static toggleMute() {
+        this.muted = !this.muted;
+
+        if (this.muted) {
             this.background_music.pause();
+            this.background_sound.pause();
         } else {
             this.background_music.play();
+            this.background_sound.play();
         }
     }
 
     static playSound(audio) {
+        if (this.muted) {
+            return;
+        }
         let clone = audio.cloneNode(true);
         clone.volume = audio.volume;
         clone.play();

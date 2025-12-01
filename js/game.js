@@ -59,3 +59,14 @@ function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
+function toggleMute() {
+    SoundManager.toggleMute();
+
+    let img = document.getElementById("mute-icon");
+    if (SoundManager.muted) {
+        img.src = "img/sound-off-white.png";
+    } else {
+        img.src = "img/sound-on-white.png";
+    }
+}
+
