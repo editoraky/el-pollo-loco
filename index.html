@@ -48,9 +48,33 @@
             <img src="img/You won, you lost/You Win A.png" alt="won screen">
             <div onclick="window.location.reload()" class="restart-btn">Play Again!</div>
         </div>
-        <div class="mute-btn-container" onclick="toggleMute()">
-            <img id="mute-icon" src="img/sound-off-white.png" alt="Mute">
+        <div id="mobile-controls">
+            <div class="mobile-btns-left">
+                <button id="btn-left" class="mobile-btn">
+                    <img src="img/arrow-btn-left.png" alt="Left">
+                </button>
+                <button id="btn-right" class="mobile-btn">
+                    <img src="img/arrow-btn-right.png" alt="Right">
+                </button>
+            </div>
+
+            <div class="mobile-btns-right">
+                <button id="btn-jump" class="mobile-btn">
+                    <img src="img/arrow-btn-top.png" alt="Jump">
+                </button>
+                <button id="btn-throw" class="mobile-btn">
+                    <img src="img/6_salsa_bottle/salsa_bottle.png" alt="Throw">
+                </button>
+            </div>
         </div>
+            <div class="mute-btn-container" onclick="toggleMute()">
+                <img id="mute-icon" src="img/sound-off-white.png" alt="Mute">
+            </div>
+        </div>
+    <div id="rotate-device-screen" class="d-none">
+        <img src="img/rotate-white.png" alt="Rotate Phone">
+        <h2>Please rotate your device!</h2>
+        <p>This game is optimized for landscape mode.</p>
     </div>
 </body>
 </html>

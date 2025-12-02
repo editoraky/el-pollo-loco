@@ -11,6 +11,7 @@ function init() {
     canvas = document.getElementById("canvas");
     world = new World(canvas, keyboard);
     SoundManager.init();
+    bindBtsPressEvents();
 }
 
 window.addEventListener("keydown", (event) => {
@@ -70,3 +71,46 @@ function toggleMute() {
     }
 }
 
+function bindBtsPressEvents() {
+    // --- LINKS
+    document.getElementById("btn-left").addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        keyboard.LEFT = true;
+    });
+    document.getElementById("btn-left").addEventListener("touchend", (event) => {
+        event.preventDefault();
+        keyboard.LEFT = false;
+    });
+
+    // --- RECHTS
+    document.getElementById("btn-right").addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        keyboard.RIGHT = true;
+    });
+    document.getElementById("btn-right").addEventListener("touchend", (event) => {
+        event.preventDefault();
+        keyboard.RIGHT = false;
+    });
+
+    // --- SPRINGEN - jump
+    document.getElementById("btn-jump").addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        keyboard.SPACE = true;
+    });
+    document.getElementById("btn-jump").addEventListener("touchend", (event) => {
+        event.preventDefault();
+        keyboard.SPACE = false;
+    });
+
+    // --- WERFEN - throw
+    document.getElementById("btn-throw").addEventListener("touchstart", (event) => {
+        event.preventDefault();
+        keyboard.D = true;
+    });
+    document.getElementById("btn-throw").addEventListener("touchend", (event) => {
+        event.preventDefault();
+        keyboard.D = false;
+    });
+
+
+}
