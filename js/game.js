@@ -9,8 +9,15 @@ function startGame() {
 
 function init() {
     canvas = document.getElementById("canvas");
+    initLevel();
     world = new World(canvas, keyboard);
     SoundManager.init();
+    let img = document.getElementById("mute-icon");
+    if (SoundManager.muted) {
+        img.src = "img/sound-off-white.png";
+    } else {
+        img.src = "img/sound-on-white.png";
+    }
     bindBtsPressEvents();
 }
 
@@ -60,6 +67,15 @@ function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
 }
 
+function restartGame() {
+    clearAllIntervals();
+    world = null;
+    document.getElementById("game-over-screen").classList.add("d-none");
+    document.getElementById("win-screen").classList.add("d-none");
+    initLevel();
+    world = new World(canvas, keyboard);
+}
+
 function toggleMute() {
     SoundManager.toggleMute();
 
@@ -72,7 +88,6 @@ function toggleMute() {
 }
 
 function bindBtsPressEvents() {
-    // --- LINKS
     document.getElementById("btn-left").addEventListener("touchstart", (event) => {
         event.preventDefault();
         keyboard.LEFT = true;
@@ -81,8 +96,6 @@ function bindBtsPressEvents() {
         event.preventDefault();
         keyboard.LEFT = false;
     });
-
-    // --- RECHTS
     document.getElementById("btn-right").addEventListener("touchstart", (event) => {
         event.preventDefault();
         keyboard.RIGHT = true;
@@ -91,8 +104,6 @@ function bindBtsPressEvents() {
         event.preventDefault();
         keyboard.RIGHT = false;
     });
-
-    // --- SPRINGEN - jump
     document.getElementById("btn-jump").addEventListener("touchstart", (event) => {
         event.preventDefault();
         keyboard.SPACE = true;
@@ -101,8 +112,6 @@ function bindBtsPressEvents() {
         event.preventDefault();
         keyboard.SPACE = false;
     });
-
-    // --- WERFEN - throw
     document.getElementById("btn-throw").addEventListener("touchstart", (event) => {
         event.preventDefault();
         keyboard.D = true;
@@ -111,6 +120,19 @@ function bindBtsPressEvents() {
         event.preventDefault();
         keyboard.D = false;
     });
+    document.getElementById("mobile-controls").addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    })
+}
 
+function toggleImprint() {
+    let overlay = document.getElementById("imprint-overlay");
+    overlay.classList.toggle("d-none");
+}
 
+function toggleControls() {
+    let overlay = document.getElementById("controls-overlay");
+    overlay.classList.toggle("d-none");
 }

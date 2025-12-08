@@ -1,18 +1,28 @@
-const level1 = new Level(
-    [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new SmallChicken(),
-        new SmallChicken(),
-        new SmallChicken(),
-        new SmallChicken(),
-        new SmallChicken(),
-        new Endboss()
-    ],
-    [
+let level1;
+
+function initLevel() {
+    const endboss = new Endboss();
+    endboss.x = 719 * 8;
+
+    const enemies = [
+            new Chicken(),
+            new Chicken(),
+            new Chicken(),
+            new Chicken(),
+            new Chicken(),
+            new Chicken(),
+            new Chicken(),
+            new SmallChicken(),
+            new SmallChicken(),
+            new SmallChicken(),
+            new SmallChicken(),
+            new SmallChicken(),
+            new SmallChicken(),
+            new SmallChicken(),
+            endboss
+    ];
+
+    const clouds = [
         new Cloud(),
         new Cloud(),
         new Cloud(),
@@ -28,13 +38,13 @@ const level1 = new Level(
         new Cloud(),
         new Cloud(),
         new Cloud()
-    ],
-    [
+    ];
+
+    const backgroundObjects = [
         new BackgroundObject("img/5_background/layers/air.png",-719),
         new BackgroundObject("img/5_background/layers/3_third_layer/2.png", -719),
         new BackgroundObject("img/5_background/layers/2_second_layer/2.png", -719),
         new BackgroundObject("img/5_background/layers/1_first_layer/2.png", -719),
-
 
         new BackgroundObject("img/5_background/layers/air.png",0),
         new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 0),
@@ -98,29 +108,21 @@ const level1 = new Level(
         new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 719*13),
         new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 719*13),
         new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 719*13)
-    ],
-    [
-        new Coin(200),
-        new Coin(300),
-        new Coin(400),
-        new Coin(500),
-        new Coin(600),
-        new Coin(700),
-        new Coin(800),
-        new Coin(900),
-        new Coin(1000),
-        new Coin(1100)
-    ],
-    [
-        new SalsaBottle(250),
-        new SalsaBottle(350),
-        new SalsaBottle(450),
-        new SalsaBottle(550),
-        new SalsaBottle(650),
-        new SalsaBottle(750),
-        new SalsaBottle(850),
-        new SalsaBottle(950),
-        new SalsaBottle(1050),
-        new SalsaBottle(1150)
-    ]
-);
+    ];
+
+    const coins = [];
+    const bottles = [];
+
+    for (let i = 0; i < 20; i++) {
+        coins.push(new Coin(200 + i * 150));
+        bottles.push(new SalsaBottle(300 + i * 180));
+    }
+
+    level1 = new Level  (
+        enemies,
+        clouds,
+        backgroundObjects,
+        coins,
+        bottles
+    );
+}

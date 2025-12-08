@@ -6,12 +6,6 @@ class MovableObject extends DrawableObject {
     health = 100;
     lastHit = 0;
 
-
-
-    /**
-     * Applies gravity to the object by decreasing the y-coordinate
-     * and reducing the vertical speed.
-     */
     applyGravity() {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -21,45 +15,35 @@ class MovableObject extends DrawableObject {
         }, 1000 / 25);
     }
 
-    /**
-     * Checks if the object is in the air.
-     * @returns {boolean} True if object is above ground or falling.
-     */
     isAboveGround() {
         if (this instanceof ThrowableObject) {
-            return true; //Throwable objects always fall
+            return true;
         }
-        return this.y < 180; //our ground level
+        return this.y < 180;
     }
-    // Checks if this object is colliding with another movable object
-    // @param {MovableObject} mo - The other object ot check collision with
-    // @returns {boolean} True if objects are colliding
+
     isColliding(mo) {
         return  this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
                 this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
                 this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
                 this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
-    // Reduces health by 5 and updates lastHit timestamp.
-    // If health drops below 0, it is set to 0
-    hit() {
-        this.health -= 5;
+
+    hit(damage = 5) {
+        this.health -= damage;
         if (this.health < 0) {
             this.health = 0;
         } else {
             this.lastHit = new Date().getTime();
         }
     }
-    // Checks if the object was his within the last second.
-    // @returns {boolean} True if hurt recently
+
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
         return timepassed < 1;
     }
 
-    // Checks if the object has no health left
-    // @returns {boolean} True if health is 0
     isDead() {
         return this.health === 0;
     }
@@ -71,8 +55,6 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
-    // Plays  an animation sequence once and stops at the last frame
-    // @param {string[]} images - Array of image paths
     playAnimationOnce(images) {
         let i = this.currentImage % images.length;
         this.img = this.imageCache[images[i]];
@@ -82,16 +64,14 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    //Moves the object to the right by increasing the x-coordinate.
     moveRight() {
         this.x += this.speed;
     }
-    //Moves the object to the left by decreasing the x-coordinate.
+
     moveLeft() {
         this.x -= this.speed;
     }
 
-    //Initiates a jump by setting a positive vertical speed.
     jump() {
         this.speedY = 30;
     }

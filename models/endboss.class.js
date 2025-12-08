@@ -1,5 +1,4 @@
 class Endboss extends MovableObject {
-
     height = 400;
     width = 250;
     y = 55;
@@ -56,6 +55,7 @@ class Endboss extends MovableObject {
             "img/4_enemie_boss_chicken/5_dead/G25.png",
             "img/4_enemie_boss_chicken/5_dead/G26.png"
         ];
+
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_WALKING);
@@ -78,6 +78,7 @@ class Endboss extends MovableObject {
                 let distance = Math.abs(this.x - this.world.character.x);
                 if (distance < 500 && !this.hadFirstContact) {
                     this.hadFirstContact = true;
+                    SoundManager.playSound(SoundManager.endboss_alert_sound);
                 }
                 if (distance < 60) {
                     this.playAnimation(this.IMAGES_ATTACK);

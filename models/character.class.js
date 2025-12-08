@@ -6,9 +6,9 @@ class Character extends MovableObject {
     bottles = 0;
     lastMovement = 0;
     offset = {
-        top: 110,
-        bottom: 10,
-        left: 20,
+        top: 80,
+        bottom: 0,
+        left: 30,
         right: 30
     };
     lastHurtSoundTime = 0;
@@ -78,6 +78,8 @@ class Character extends MovableObject {
 
     world;
     keyboard;
+    deadSoundPlayed = false;
+    isSleeping = false;
 
     constructor() {
         super();
@@ -93,7 +95,6 @@ class Character extends MovableObject {
         this.lastMovement = new Date().getTime();
     }
 
-    //starts the animation loops for movement and images.
     animate() {
         setInterval(() => this.moveCharacter(), 1000 / 60);
         setInterval(() => this.playCharacterAnimation(), 1000 / 10);
@@ -106,39 +107,57 @@ class Character extends MovableObject {
         return this.y < 140;
     }
 
-    //handles the movement logic based on keyboard input
+    wakeUp() {
+        this.lastMovement = new Date().getTime();
+
+        if (this.isSleeping) {
+            this.isSleeping = false;
+            SoundManager.pepe_snore_sound.pause();
+            SoundManager.pepe_snore_sound.currentTime = 0;
+        }
+    }
     moveCharacter() {
-        if (!this.world || !this.world.keyboard) {
+        if (!this.world || !this.world.keyboard || this.world.gameOver) {
             return;
         }
-
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.moveRight();
             this.otherDirection = false;
             this.lastMovement = new Date().getTime();
+            this.wakeUp();
         }
         if (this.world.keyboard.LEFT && this.x > 0) {
             this.moveLeft();
             this.otherDirection = true;
             this.lastMovement = new Date().getTime();
+            this.wakeUp();
         }
         if (this.world.keyboard.SPACE && !this.isAboveGround()) {
             this.jump();
             SoundManager.playSound(SoundManager.pepe_jump_sound);
             this.lastMovement = new Date().getTime();
+            this.wakeUp();
+        }
+        if (this.world.keyboard.D) {
+            this.wakeUp();
         }
         this.world.camera_x = -this.x + 100;
     }
 
-    // Switches the character images based on the current state (dead, hurt, jumping, walking)
     playCharacterAnimation() {
         if (!this.world || !this.world.keyboard) {
             return;
         }
         if (this.isDead()) {
-            SoundManager.pepe_dead_sound.play();
+            this.wakeUp();
+            if (!this.deadSoundPlayed) {
+                SoundManager.pepe_dead_sound.play();
+                this.deadSoundPlayed = true;
+            }
+
             this.playAnimationOnce(this.IMAGES_DEAD);
         } else if (this.isHurt()) {
+            this.wakeUp();
             let now = new Date().getTime();
             if (now - this.lastHurtSoundTime > 1000) {
                 SoundManager.playSound(SoundManager.pepe_hurt_sound);
@@ -147,6 +166,7 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_HURT);
 
         } else if (this.isAboveGround()) {
+            this.wakeUp();
             this.playAnimation(this.IMAGES_JUMPING);
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.IMAGES_WALKING);
@@ -160,22 +180,27 @@ class Character extends MovableObject {
 
         if (timePassed > 15000) {
             this.playAnimation(this.IMAGES_LONG_IDLE);
+            if (!this.isSleeping) {
+                this.isSleeping = true;
+                SoundManager.pepe_snore_sound.play();
+            }
         } else {
+            if (this.isSleeping) {
+                this.wakeUp();
+            }
             this.playAnimation(this.IMAGES_IDLE);
         }
     }
 
-    // Increases coin count. Cap is 100
     collectCoin() {
-        this.coins += 100 / 10;
+        this.coins += 10;
         if (this.coins > 100) {
             this.coins = 100;
         }
     }
 
-    // Increases bottle count. Cap is 100
     collectBottle() {
-        this.bottles += 100 / 10;
+        this.bottles += 10;
         if (this.bottles > 100) {
             this.bottles = 100;
         }

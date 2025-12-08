@@ -1,10 +1,5 @@
 class ThrowableObject extends MovableObject {
 
-    /**
-     * Creates a throwable bottle at the given coordinates.
-     * @param {number} x - The x-coordinate.
-     * @param {number} y - The y-coordinate.
-     */
     constructor(x, y, direction) {
         super();
         this.loadImage("img/6_salsa_bottle/salsa_bottle.png");
@@ -14,7 +9,17 @@ class ThrowableObject extends MovableObject {
             "img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",
             "img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png"
         ];
+        this.IMAGES_SPLASH = [
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png",
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png",
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png",
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png",
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png",
+            "img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png"
+        ];
+
         this.loadImages(this.IMAGES_ROTATION);
+        this.loadImages(this.IMAGES_SPLASH);
 
         this.x = x;
         this.y = y;
@@ -23,25 +28,30 @@ class ThrowableObject extends MovableObject {
         this.otherDirection = direction;
         this.throw();
     }
-    /**
-     * Initiates the throwing physics (gravity and forward movement).
-     */
+
     throw() {
         this.speedY = 30;
         this.applyGravity();
-
-        // Wurf-Intervall (Bewegung & Rotation)
-        setInterval(() => {
-            if (this.otherDirection) {
+        this.throwInterval = setInterval(() => {
+            if (this.hasHit) return;
+                if (this.otherDirection) {
                 this.x -= 10;
-            } else {
+                } else {
                 this.x += 10;
             }
         }, 25);
 
-
-        setInterval(() => {
-            this.playAnimation(this.IMAGES_ROTATION);
+        this.animationInterval = setInterval(() => {
+            if (this.hasHit) {
+                this.playAnimation(this.IMAGES_SPLASH);
+            } else {
+                this.playAnimation(this.IMAGES_ROTATION);
+            }
         }, 50);
+    }
+
+    splash() {
+        this.hasHit = true;
+        this.speedY = 0;
     }
 }

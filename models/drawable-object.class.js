@@ -13,7 +13,6 @@ class DrawableObject {
         right: 0
     };
 
-
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
@@ -22,7 +21,6 @@ class DrawableObject {
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
-
 
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof SmallChicken || this instanceof ThrowableObject) {
@@ -35,11 +33,10 @@ class DrawableObject {
                 this.width - this.offset.right - this.offset.left,
                 this.height - this.offset.bottom - this.offset.top
             );
-            ctx.stroke();
+            //ctx.stroke(); Hallo Marco, ich habe das hier einfach auskommentiert, weil ich es später noch verwenden möchte.
         }
     }
 
-     // preloading
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
@@ -47,5 +44,4 @@ class DrawableObject {
             this.imageCache[path] = img;
         });
     }
-
 }

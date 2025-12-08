@@ -3,16 +3,18 @@ class SmallChicken extends MovableObject {
     height = 60;
     width = 60;
     offset = {
-        top: 5,
+        top: 0,
         bottom: 0,
         left: 5,
         right: 5
     };
+
     IMAGES_WALKING = [
         "img/3_enemies_chicken/chicken_small/1_walk/1_w.png",
         "img/3_enemies_chicken/chicken_small/1_walk/2_w.png",
         "img/3_enemies_chicken/chicken_small/1_walk/3_w.png"
     ];
+
     IMAGE_DEAD = "img/3_enemies_chicken/chicken_small/2_dead/dead.png";
 
     constructor() {
@@ -21,7 +23,7 @@ class SmallChicken extends MovableObject {
         this.loadImages(this.IMAGES_WALKING);
 
         this.x = 800 + Math.random() * 5000 ;
-        this.speed = 0.15 + Math.random() * 0.5; // Etwas schneller als normale Hühner
+        this.speed = 0.15 + Math.random() * 0.5;
 
         this.animate();
     }
