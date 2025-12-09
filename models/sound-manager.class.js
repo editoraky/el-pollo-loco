@@ -1,3 +1,7 @@
+/**
+ * Static class that manages all audio assets, volume controls, and mute functionality.
+ * It provides methods to play sounds, handle background music, and persist mute settings via local storage.
+ */
 class SoundManager {
     static pepe_hurt_sound = new Audio("audio/pepe_hurt_and_dead/ough_cut.mp3");
     static pepe_dead_sound = new Audio("audio/pepe_hurt_and_dead/pepe_dies_cut.mp3");
@@ -22,8 +26,14 @@ class SoundManager {
     static lost_music = new Audio("audio/lost_sound/game_over_sound.mp3");
     static lost_sound = new Audio("audio/lost_sound/game_over_cut.mp3");
 
+    /** @type {boolean} Global mute flag. */
     static muted = false;
 
+    /**
+     * Initializes the sound settings.
+     * Sets volume levels for all audio objects.
+     * Checks local storage to see if the game was previously muted.
+     */
     static init() {
         this.background_music.volume = 0.1;
         this.background_sound.volume = 0.2;
@@ -46,7 +56,7 @@ class SoundManager {
 
         this.win_music.volume = 0.3;
         this.win_sound.volume = 0.3;
-        this.lost_sound.volume = 0.3;
+        this.lost_music.volume = 0.3;
         this.lost_sound.volume = 0.3;
 
         let savedMute = localStorage.getItem("muteStatus");
@@ -57,10 +67,26 @@ class SoundManager {
         } else {
             this.muted = false;
         }
-        this.background_music.volume = 0.2;
-        this.background_sound.volume = 0.2;
     }
 
+    static playBackgroundMusic() {
+        if (this.muted) return;
+
+        this.background_music.loop = true;
+        this.background_sound.loop = true;
+
+        if (this.background_music.paused) {
+            this.background_music.play().catch(e => console.log("Audio autoplay blocked:", e));
+        }
+        if (this.background_sound.pause) {
+            this.background_sound.play().catch(e => console.log("Audio autoplay blocked:", e));
+        }
+    }
+
+    /**
+     * Toggles the global mute state.
+     * Saves the new state to local storage and pauses/resumes background audio immediately.
+     */
     static toggleMute() {
         this.muted = !this.muted;
 
@@ -68,19 +94,25 @@ class SoundManager {
         if (this.muted) {
             this.background_music.pause();
             this.background_sound.pause();
+            this.pepe_snore_sound.pause();
         } else {
             this.background_music.play();
             this.background_sound.play();
         }
     }
 
+    /**
+     * Plays a specific sound effect.
+     * Creates a clone of the audio node to allow overlapping sounds (e.g., collecting multiple coins quickly).
+     * @param {HTMLAudioElement} audio - The audio object to play.
+     */
     static playSound(audio) {
         if (this.muted) {
             return;
         }
         let clone = audio.cloneNode(true);
         clone.volume = audio.volume;
-        clone.play();
+        clone.play().catch(e => {
+        });
     }
 }
-

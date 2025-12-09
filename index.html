@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/2_character_pepe/1_idle/idle/I-1.png">
+    <link rel="icon" type="image/png" href="./img/2_character_pepe/1_idle/idle/I-1.png">
     <title>El Pollo Loco</title>
     <link rel="stylesheet" href="style.css">
 
@@ -35,8 +35,8 @@
     <div id="container">
         <canvas id="canvas" width="720" height="480"></canvas>
         <div id="start-screen" class="start-screen-overlay">
-            <img src="img/9_intro_outro_screens/start/startscreen_1.png" alt="Start Screen">
-            <div onclick="startGame()" class="start-btn">START GAME</div>
+            <img src="./img/9_intro_outro_screens/start/startscreen_1.png" alt="Start Screen">
+            <div onclick="startGame()" class="start-btn game-btn">START GAME</div>
 
             <div onclick="toggleControls()" class="controls-link">How to Play / Controls</div>
 
@@ -44,40 +44,46 @@
         </div>
 
         <div id="game-over-screen" class="d-none">
-            <img src="img/9_intro_outro_screens/game_over/game%20over!.png" alt="game over screen">
-            <div onclick="restartGame()" class="restart-btn">Try Again!</div>
+            <img src="./img/9_intro_outro_screens/game_over/game%20over!.png" alt="game over screen">
+            <div class="btn-container">
+                <div onclick="restartGame()" class="restart-btn game-btn">Try Again!</div>
+                <div onclick="goToMenu()" class="menu-btn game-btn">Menu</div>
+            </div>
         </div>
 
         <div id="win-screen" class="d-none">
-            <img src="img/You won, you lost/You Win A.png" alt="won screen">
-            <div onclick="restartGame()" class="restart-btn">Play Again!</div>
+            <img src="./img/You won, you lost/You Win A.png" alt="won screen">
+            <div class="btn-container">
+                <div onclick="restartGame()" class="restart-btn game-btn">Play Again!</div>
+                <div onclick="goToMenu()" class="menu-btn game-btn">Menu</div>
+            </div>
         </div>
 
         <div id="mobile-controls" oncontextmenu="return false;">
             <div class="mobile-btns-left">
                 <button id="btn-left" class="mobile-btn">
-                    <img src="img/arrow-btn-left.png" alt="Left">
+                    <img src="./img/arrow-btn-left.png" alt="Left">
                 </button>
                 <button id="btn-right" class="mobile-btn">
-                    <img src="img/arrow-btn-right.png" alt="Right">
+                    <img src="./img/arrow-btn-right.png" alt="Right">
                 </button>
             </div>
 
             <div class="mobile-btns-right">
                 <button id="btn-jump" class="mobile-btn">
-                    <img src="img/arrow-btn-top.png" alt="Jump">
+                    <img src="./img/arrow-btn-top.png" alt="Jump">
                 </button>
                 <button id="btn-throw" class="mobile-btn">
-                    <img src="img/6_salsa_bottle/salsa_bottle.png" alt="Throw">
+                    <img src="./img/6_salsa_bottle/salsa_bottle.png" alt="Throw">
                 </button>
             </div>
         </div>
             <div class="mute-btn-container" onclick="toggleMute()">
-                <img id="mute-icon" src="img/sound-on-white.png" alt="Mute">
+                <img id="mute-icon" src="./img/sound-on-white.png" alt="Mute">
             </div>
         </div>
     <div id="rotate-device-screen" class="d-none">
-        <img src="img/rotate-white.png" alt="Rotate Phone">
+        <img src="./img/rotate-white.png" alt="Rotate Phone">
         <h2>Please rotate your device!</h2>
         <p>This game is optimized for landscape mode.</p>
     </div>
@@ -98,7 +104,7 @@
 
             <p>Quelle: <a href="https://www.e-recht24.de" target="_blank">e-recht24.de</a></p>
 
-            <button onclick="toggleImprint()" class="close-imprint-btn">Schließen</button>
+            <button onclick="toggleImprint()" class="close-imprint-btn">Close</button>
         </div>
     </div>
     <div id="controls-overlay" class="d-none" onclick="toggleControls()">

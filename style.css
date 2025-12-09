@@ -19,7 +19,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url("img/game_background/cactus-9696097_1920.png");
+    background-image: url("./img/game_background/cactus-9696097_1920.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -77,7 +77,7 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 5;
     border-radius: 10px;
 }
 
@@ -99,8 +99,8 @@ h1 {
 }
 
 .restart-btn {
-    position: absolute;
-    bottom: 50px;
+    position: relative;
+    bottom: auto;
     padding: 10px 20px;
     background-color: #ffcc00;
     border: 3px solid #8b4513;
@@ -109,11 +109,26 @@ h1 {
     font-weight: bold;
     cursor: pointer;
     border-radius: 10px;
-    z-index: 1000;
 }
 
 .restart-btn:hover {
     background-color: #ffdb4d;
+    transform: scale(1.1);
+}
+
+.menu-btn {
+    padding: 10px 20px;
+    background-color: #8b4513;
+    border: 3px solid #ffcc00;
+    color: #ffcc00;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.menu-btn:hover {
+    background-color: #a05a2c;
     transform: scale(1.1);
 }
 
@@ -127,7 +142,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 5;
     border-radius: 10px;
 }
 
@@ -164,7 +179,7 @@ h1 {
     width: 40px;
     height: 40px;
     cursor: pointer;
-    z-index: 1003;
+    z-index: 6;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 50%;
     display: flex;
@@ -191,7 +206,7 @@ h1 {
     height: 100vh;
     background-color: black;
     color: white;
-    z-index: 9999;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -235,14 +250,15 @@ h1 {
     color: white;
 }
 
-#imprint-overlay {
+#imprint-overlay,
+#controls-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.85);
-    z-index: 1005;
+    z-index: 8;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -270,23 +286,25 @@ h1 {
     color: #8b4513;
 }
 
-.close-imprint-button {
+.close-imprint-btn {
     position: absolute;
     top: 10px;
     right: 15px;
-    background-color: #8b4513;
-    color: white;
-    border: none;
-    font-family: "Bangers", cursive;
-    font-size: 20px;
-    padding: 5px 10px;
-    cursor: pointer;
+    background-color: #ffcc00;
+    border: solid 3px #8b4513;
     border-radius: 10px;
+    padding: 5px 10px;
+    color: #4a3b2a;
+    font-size: 22px;
+    font-family: "Bangers", cursive;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
 }
 
 .close-imprint-btn:hover {
     background-color: #ffcc00;
     color: #8b4513;
+    transform: scale(1.1);
 }
 
 .controls-link {
@@ -298,24 +316,11 @@ h1 {
     font-family: "Bangers", sans-serif;
     cursor: pointer;
     text-decoration: none;
-    z-index: 1002
+    z-index: 6;
 }
 
 .controls-link:hover {
     color: #ffcc00;
-}
-
-#controls-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.85);
-    z-index: 1006;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .controls-row {
@@ -341,6 +346,40 @@ h1 {
 .space-key {
     width: 100px;
     text-align: center;
+}
+
+button,
+.start-btn,
+.restart-btn,
+.close-imprint-btn,
+.imprint-link,
+.mobile-btn {
+    cursor: pointer !important;
+}
+
+.game-btn {
+    background-color: #ffcc00;
+    border: 4px solid #8b4513;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-family: "Bangers", sans-serif;
+    font-size: 22px;
+    color: #4a3b2a;
+    text-shadow: 1px 1px #fff2a8;
+    transition: transform 0.1s ease-in-out;
+}
+
+.game-btn:hover {
+    transform: scale(1.1);
+    background-color: #ffe066;
+}
+
+.btn-container {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+    gap: 20px;
+    z-index: 6;
 }
 
 @media only screen and (max-width: 720px) and (orientation: portrait) {
@@ -376,7 +415,7 @@ h1 {
         top: 0;
         left: 0;
         border-radius: 0 !important;
-        z-index: 9999;
+        z-index: 5;
     }
 
     #mobile-controls {
@@ -391,7 +430,7 @@ h1 {
         padding: 0 20px;
         box-sizing: border-box;
         pointer-events: none;
-        z-index: 50;
+        z-index: 1;
     }
 
     .mobile-btn {
@@ -404,7 +443,7 @@ h1 {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 5px;
+        margin: 10px;
         cursor: pointer;
         user-select: none;
         -webkit-user-select: none;
@@ -421,6 +460,33 @@ h1 {
         height: 40px;
         object-fit: contain;
         pointer-events: none;
+    }
+
+    .mobile-btns-left,
+    .mobile-btns-right {
+        display: flex;
+        gap: 40px !important;
+    }
+
+    #btn-left {
+        transform: translateY(0);
+    }
+
+    #btn-right {
+        transform: translateY(-15px);
+    }
+
+    #btn-jump {
+        transform: translateY(-15px);
+    }
+
+    #btn-throw {
+        transform: translateY(0);
+    }
+
+    #btn-right:active,
+    #btn-jump:active {
+        transform: translateY(-15px) scale(0.95);
     }
 
     h1 {
