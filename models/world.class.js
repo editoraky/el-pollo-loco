@@ -235,7 +235,7 @@ class World {
     killEnemy(enemy) {
         SoundManager.playSound(SoundManager.chicken_dead_sound);
         enemy.kill();
-        this.character.jump();
+        this.character.bounce();
         setTimeout(() => {
             const index = this.level.enemies.indexOf(enemy);
             if (index > -1) this.level.enemies.splice(index, 1);

@@ -46,7 +46,7 @@ class ThrowableObject extends MovableObject {
      * and cycles through the rotation images.
      */
     throw() {
-        this.speedY = 30;
+        this.speedY = 21;
         this.applyGravity();
         this.throwInterval = setInterval(() => {
             if (this.hasHit) return;
@@ -57,7 +57,7 @@ class ThrowableObject extends MovableObject {
             }
         }, 25);
 
-        this.animationInterval = setInterval(() => {
+        setInterval(() => {
             if (this.hasHit) {
                 this.playAnimation(this.IMAGES_SPLASH);
             } else {
@@ -74,5 +74,6 @@ class ThrowableObject extends MovableObject {
     splash() {
         this.hasHit = true;
         this.speedY = 0;
+        clearInterval(this.throwInterval);
     }
 }

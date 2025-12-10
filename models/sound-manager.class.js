@@ -36,11 +36,14 @@ class SoundManager {
      */
     static init() {
         this.background_music.volume = 0.1;
-        this.background_sound.volume = 0.2;
+        this.background_sound.volume = 0.3;
+
+        this.background_music.loop = true;
+        this.background_sound.loop = true;
 
         this.collect_coin_sound.volume = 0.1;
         this.collect_bottle_sound.volume = 0.1;
-        this.pepe_jump_sound.volume = 0.2;
+        this.pepe_jump_sound.volume = 0.1;
 
         this.bottle_smash_sound.volume = 0.2;
         this.chicken_dead_sound.volume = 0.2;
@@ -50,14 +53,14 @@ class SoundManager {
         this.pepe_snore_sound.volume = 0.3;
         this.pepe_snore_sound.loop = true;
 
-        this.endboss_hurt_sound.volume = 0.4;
-        this.endboss_dead_sound.volume = 0.4;
-        this.endboss_alert_sound.volume = 0.4;
+        this.endboss_hurt_sound.volume = 0.3;
+        this.endboss_dead_sound.volume = 0.3;
+        this.endboss_alert_sound.volume = 0.3;
 
-        this.win_music.volume = 0.3;
-        this.win_sound.volume = 0.3;
-        this.lost_music.volume = 0.3;
-        this.lost_sound.volume = 0.3;
+        this.win_music.volume = 0.2;
+        this.win_sound.volume = 0.2;
+        this.lost_music.volume = 0.2;
+        this.lost_sound.volume = 0.2;
 
         let savedMute = localStorage.getItem("muteStatus");
         if (savedMute === "true") {
@@ -66,6 +69,7 @@ class SoundManager {
             this.background_sound.pause();
         } else {
             this.muted = false;
+            this.playBackgroundMusic();
         }
     }
 

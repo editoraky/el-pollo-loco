@@ -114,7 +114,7 @@ class Endboss extends MovableObject {
                     this.hadFirstContact = true;
                     SoundManager.playSound(SoundManager.endboss_alert_sound);
                 }
-                if (distance < 60) {
+                if (distance < 90) {
                     this.playAnimation(this.IMAGES_ATTACK);
                 } else if (this.hadFirstContact) {
                     this.playAnimation(this.IMAGES_WALKING);
@@ -126,7 +126,7 @@ class Endboss extends MovableObject {
 
         setInterval(() => {
             if (this.hadFirstContact && !this.isDead() && !this.isHurt()) {
-                if (this.world && this.world.character && Math.abs(this.x - this.world.character.x) > 60) {
+                if (this.world && this.world.character && Math.abs(this.x - this.world.character.x) > 10) {
                     this.moveLeft();
                 }
             }

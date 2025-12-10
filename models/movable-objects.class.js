@@ -7,7 +7,7 @@ class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
-    acceleration = 2.5;
+    acceleration = 1.0;
     health = 100;
     lastHit = 0;
 
@@ -21,7 +21,11 @@ class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
-        }, 1000 / 25);
+            if (!(this instanceof ThrowableObject) && this.y > 180) {
+                this.y = 180;
+                this.speedY = 0;
+            }
+        }, 1000 / 60);
     }
 
     /**
@@ -124,6 +128,10 @@ class MovableObject extends DrawableObject {
      * Gravity will automatically pull it down afterwards.
      */
     jump() {
-        this.speedY = 30;
+        this.speedY = 17;
+    }
+
+    bounce() {
+        this.speedY = 12;
     }
 }
